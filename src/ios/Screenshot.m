@@ -19,9 +19,15 @@
 - (UIImage *)getScreenshot
 {
 	UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+  CGRect bounds = [keyWindow bounds];
+  CGRect sampleArea = [keyWindow bounds];
 	CGRect rect = [keyWindow bounds];
+  rect.size.height = rect.size.width;
+  rect.size.height -= 1;
+  rect.size.width -= 1;
+  sampleArea.origin.y = -(bounds.size.height / 2.0 - rect.size.height / 2.0 + 1);
 	UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0);
-	[keyWindow drawViewHierarchyInRect:keyWindow.bounds afterScreenUpdates:NO];
+	[keyWindow drawViewHierarchyInRect:sampleArea afterScreenUpdates:NO];
 	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return img;
